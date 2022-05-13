@@ -2,9 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Common\System\Console\Commands\Base_Command;
 use App\Console\Repositories\ExampleRepository;
 
-class ExampleCommand
+class ExampleCommand extends Base_Command
 {
 	public $signature = 'teste';
 
@@ -12,11 +13,16 @@ class ExampleCommand
 
 	public function __construct()
 	{
+        parent::__construct();
+
 		$this->repository = new ExampleRepository();
 	}
 
-	public function handle(): array
+	public function handle(): int
 	{
-		return $this->repository->example();
+		$result = $this->repository->example();
+		if($this->info) var_dump($result);
+		
+		return 1;
 	}
 }

@@ -7,14 +7,16 @@ use \PDOException;
 
 class MysqlDatabase
 {
-	public static function setConnection(): PDO
+	public static function setConnection(array $config=[]): PDO
 	{
-		$config = [
-			'host' => getenv('DB_HOST'),
-			'database' => getenv('DB_DATABASE'),
-			'username' => getenv('DB_USERNAME'),
-			'password' => getenv('DB_PASSWORD')
-		];
+		if(!$config) {
+			$config = [
+				'host' => getenv('DB_HOST'),
+				'database' => getenv('DB_DATABASE'),
+				'username' => getenv('DB_USERNAME'),
+				'password' => getenv('DB_PASSWORD')
+			];
+		}
 
 		try {
 			$con = 'mysql:host=' . $config['host'] . ';dbname=' . $config['database'];

@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Common\System\Repositories;
+namespace App\Common\System\Console\Commands;
+
 use App\Helpers\Log;
 
-class Base_Repository
+class Base_Command
 {
     protected $log = false;
     protected $info = false;

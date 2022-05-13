@@ -7,8 +7,6 @@ use App\Helpers\Log;
 
 class ExampleRepository extends Base_Repository
 {
-    protected $log = true;
-
     public function __construct()
     {
         parent::__construct();
