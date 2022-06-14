@@ -27,7 +27,7 @@ class Kernel
 	protected function load(): void
 	{
 		if(!$this->args) {
-			exit('Comando não encontrado');
+			exit('Command not found');
 		}
 
 		foreach($this->commands as $command) {

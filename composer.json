@@ -1,5 +1,5 @@
 {
-    "name": "default-database-integration",
+    "name": "default/database-integration",
     "type": "project",
     "description": "Application for conection in database",
     "require": {
@@ -10,10 +10,10 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "app/"
         },
         "classmap": [
-            "src/"
+            "app/"
         ]
     },
     "autoload-dev": {
