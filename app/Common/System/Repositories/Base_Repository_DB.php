@@ -11,6 +11,8 @@ class Base_Repository_DB extends Base_Repository
 
     public function __construct()
     {
+        parent::__construct();
+        
         $this->db = new Database();
     }
 }

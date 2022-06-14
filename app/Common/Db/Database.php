@@ -12,16 +12,16 @@ class Database
 
 	private $connection;
 
-	public function __construct()
+	public function __construct(array $config=[])
 	{
-		$this->setConnection();
+		$this->setConnection($config);
 	}
 
-	private function setConnection(): void
+	private function setConnection(array $config=[]): void
 	{
 		$this->connector = MysqlDatabase::class;
 
-		$this->connection = $this->connector::setConnection();
+		$this->connection = $this->connector::setConnection($config);
 
 		if(getenv('APP_ENV') === 'testing') {
 			$this->connection->beginTransaction();
@@ -35,7 +35,7 @@ class Database
 			$statement->execute($params);
 			return $statement;
 		}catch(PDOException $e){
-			die('[Error] ' . $e->getMessage());
+			throw new \Exception('[Error] ' . $e->getMessage());
 		}
 	}
 
@@ -52,19 +52,34 @@ class Database
 		return $this->connection->lastInsertId();
 	}
 
+	public function update(string $table, array $values, string $field, $id)
+	{
+		$keysArray = array_keys($values);
+		$fields = implode('=?,', $keysArray);
+
+		$query = "UPDATE {$table} SET {$fields}=? WHERE {$field} = '{$id}'";
+
+		return $this->execute($query, array_values($values));
+	}
+
 	public function query(string $query): \PDOStatement
 	{
 		return $this->execute($query);
 	}
 
-	public function beginTransaction(): void
+	public function beginTransaction(): bool
 	{
-		$this->connection->beginTransaction();
+		return $this->connection->beginTransaction();
 	}
 
-	public function rollBack(): void
+	public function rollBack(): bool
 	{
-		$this->connection->rollBack();
+		return $this->connection->rollBack();
+	}
+
+	public function commit(): bool
+	{
+		return $this->connection->commit();
 	}
 
 	public function __destruct()

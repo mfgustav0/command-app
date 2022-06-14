@@ -22,7 +22,6 @@ class ExampleCommandTest extends TestCase
         $result = $this->commandClass->handle();
 
         //Assert
-        $this->assertArrayHasKey('success', $result);
-        $this->assertEquals($result['success'], '[Success]');
+        $this->assertEquals($result, 1);
     }
 }

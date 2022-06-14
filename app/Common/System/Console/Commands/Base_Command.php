@@ -1,15 +1,23 @@
 <?php
 
-namespace App\Common\System\Repositories;
+namespace App\Common\System\Console\Commands;
+
 use App\Helpers\Log;
 
-class Base_Repository
+class Base_Command
 {
     protected $log = false;
+    protected $info = false;
 
     public function __construct()
     {
-        if($this->log) $this->setLogInfo('initialized');
+        if(getenv('LOG') == 'true') {
+            $this->log = true;
+        }
+
+        if(getenv('INFO') == 'true') {
+            $this->info = true;
+        }
     }
 
     protected function setLogSuccess(string $message): void
@@ -25,10 +33,5 @@ class Base_Repository
     protected function setLogError(string $message): void
     {
         Log::error($message);
-    }
-
-    public function __destruct()
-    {
-        if($this->log) $this->setLogInfo('Finalized');
     }
 }
