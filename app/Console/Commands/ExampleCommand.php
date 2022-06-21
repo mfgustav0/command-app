@@ -7,7 +7,9 @@ use App\Console\Repositories\ExampleRepository;
 
 class ExampleCommand extends Base_Command
 {
-	public $signature = 'teste';
+	public $signature = 'test';
+
+	public $description = 'show message test';
 
 	private $repository;
 

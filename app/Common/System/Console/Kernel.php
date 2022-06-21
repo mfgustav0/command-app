@@ -2,10 +2,13 @@
 
 namespace App\Common\System\Console;
 
+use App\Common\System\Console\Commands\Base_Command;
+
 class Kernel
 {
 	private $exceptions = [
-		'index.php'
+		'index.php',
+		'index',
 	];
 
 	protected $args = [];
@@ -27,7 +30,8 @@ class Kernel
 	protected function load(): void
 	{
 		if(!$this->args) {
-			exit('Command not found');
+			$this->listCommandsAvalibles();
+			exit;
 		}
 
 		foreach($this->commands as $command) {
@@ -43,5 +47,36 @@ class Kernel
 
 			$class->handle();
 		}
+	}
+
+	private function listCommandsAvalibles(): void
+	{
+		if(!$this->commands) return;
+
+		print('') . PHP_EOL;
+		print('commands avalibles:') . PHP_EOL;
+
+		foreach($this->commands as $command) {
+			$class = new $command();
+
+			if(!$class) continue;
+
+			$output = $this->outputCommandDescribe($class);
+
+			print($output) . PHP_EOL;
+
+			unset($class);
+		}
+	}
+
+	private function outputCommandDescribe(Base_Command $class): string
+	{
+		$string = str_pad((' ' . $class->signature), 15, ' ');
+
+		if(isset($class->description)) {
+			$string .= $class->description;
+		}
+
+		return $string;
 	}
 }
